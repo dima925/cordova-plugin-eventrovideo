@@ -2,13 +2,11 @@
 
 module.exports = {
     /**
-     * Send request to ARcode engine.
+     * Send request to Auto video player.
      *
-     * @param {String} name       Place name
-     * @param {String} category   Place category
-     * @param {String} icon       Image icon url from map
-     * @param {Float} latitude    Latitude
-     * @param {Float} longitude   Longitude
+     * @param {String} url       media file url
+     * @param {String} volume    volume
+     * @param {String} scale     Player Frame type
      */
     arcodeview: function (data, successCallback) {
         if(data.length > 0){
