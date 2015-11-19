@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.ionicsokolov.arcode"
+        version="0.1.0">
+
+  <name>ARcode</name>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/arcode.js" target="js/arcode.js"/>
+
+  <js-module src="www/arcode.js" name="arcode">
+    <clobbers target="ARcode" />
+  </js-module>
+
+  <platform name="ios">
+    
+    <config-file target="config.xml" parent="/*">
+      <feature name="ARcode">
+        <param name="ios-package" value="ASARcode" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/ASARcode.h"/>
+    <source-file src="src/ios/ASARcode.m"/>
+  </platform>
+  
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="ARcode">
+        <param name="android-package" value="com.geteventro.plugin.ARcode"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/ARcode.java" target-dir="src/com/geteventro/plugin/"/>
+  </platform>
+
+</plugin>
