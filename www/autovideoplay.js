@@ -8,7 +8,7 @@ module.exports = {
      * @param {String} volume    volume
      * @param {String} scale     Player Frame type
      */
-    arcodeview: function (data, successCallback) {
+    autoplay: function (data, successCallback) {
         if(data.length > 0){
             var sendData = {};
             if(!data.url) return;
