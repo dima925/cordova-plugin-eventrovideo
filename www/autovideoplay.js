@@ -9,7 +9,6 @@ module.exports = {
      * @param {String} scale     Player Frame type
      */
     autoplay: function (data, successCallback) {
-        if(data.length > 0){
             var sendData = {};
             if(!data.url) return;
             sendData.url = (data.url||'');
@@ -17,7 +16,5 @@ module.exports = {
             sendData.scale = (data.scale||true);
             var senddata = JSON.stringify(sendData);
             cordova.exec(successCallback, null, "AutoVideoPlay", "autoplay", [senddata]);
-        }
-
     }
 };
