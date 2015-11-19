@@ -23,8 +23,8 @@
       </feature>
     </config-file>
 
-    <header-file src="src/ios/AutoVideoPlay"/>
-    <source-file src="src/ios/AutoVideoPlay"/>
+    <header-file src="src/ios/AutoVideoPlay.h"/>
+    <source-file src="src/ios/AutoVideoPlay.m"/>
   </platform>
   
 </plugin>
