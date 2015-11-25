@@ -25,6 +25,9 @@
 
     <header-file src="src/ios/AutoVideoPlay.h"/>
     <source-file src="src/ios/AutoVideoPlay.m"/>
+    <header-file src="src/ios/CustomMoviePlayerViewController.h"/>
+    <source-file src="src/ios/CustomMoviePlayerViewController.m"/>
+    <framework src="MediaPlayer.framework" />
   </platform>
   
 </plugin>
