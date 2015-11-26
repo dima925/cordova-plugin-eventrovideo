@@ -14,9 +14,12 @@
     
     
     CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:[jsonResult objectForKey:@"url"]];
+    [moviePlayer setVideoType:[jsonResult objectForKey:@"videoType"]];
     [moviePlayer readyPlayer];
     
     [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
+    
+
 
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus:CDVCommandStatus_OK

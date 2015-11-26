@@ -17,20 +17,30 @@
     {
         movieURL = [NSURL URLWithString:moviePath];
     }
-	return self;
+    return self;
+}
+
+-(void) setVideoType : (NSString *) fileType
+{
+    if ([fileType rangeOfString:@"MP4" options:NSCaseInsensitiveSearch].location == NSNotFound)
+    {
+        isMP4 = NO;
+    }
+    else
+    {
+        isMP4 = YES;
+    }
 }
 
 - (void) moviePlayerLoadStateChanged:(NSNotification*)notification
 {
-	if ([mp loadState] != MPMovieLoadStateUnknown)
+    if ([mp loadState] != MPMovieLoadStateUnknown)
     {
-       NSRange mp3Range = [[[movieURL absoluteString] lowercaseString] rangeOfString:[@"mp3" lowercaseString]];
-        
-        if(mp3Range.location != NSNotFound)
+        if(isMP4==NO)
         {
             [mp view].frame = self.view.bounds;
             [[self view] addSubview:[mp view]];
-
+            
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             button.frame = CGRectMake(0,50,100,55);
             button.tag = 1;
@@ -49,7 +59,7 @@
         }
         
         [mp play]; //autoplay
-	}
+    }
 }
 
 - (void) viewDidLoad
@@ -126,9 +136,9 @@
         [mp setControlStyle:MPMovieControlStyleFullscreen];
         [mp setFullscreen:YES];
         [mp prepareToPlay];
-      
         
-		[[NSNotificationCenter defaultCenter] addObserver:self
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(moviePlayerLoadStateChanged:)
                                                      name:MPMoviePlayerLoadStateDidChangeNotification
                                                    object:nil];
@@ -136,7 +146,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(moviePlayBackDidFinish:)
                                                      name:MPMoviePlayerPlaybackDidFinishNotification
-                                                  object:nil];
+                                                   object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(orientationDidChange:)

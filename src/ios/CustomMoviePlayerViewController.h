@@ -7,10 +7,11 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface CustomMoviePlayerViewController : UIViewController 
+@interface CustomMoviePlayerViewController : UIViewController
 {
-        MPMoviePlayerController *mp;
-        NSURL *movieURL;
+    MPMoviePlayerController *mp;
+    NSURL *movieURL;
+    BOOL isMP4;
 }
 
 @property (nonatomic, strong) NSMutableArray *xmlCopyArray;
@@ -18,5 +19,6 @@
 - (id)initWithPath:(NSString *)moviePath;
 - (void)readyPlayer;
 - (void) moviePlayerLoadStateChanged:(NSNotification*)notification;
+- (void) setVideoType : (NSString *) fileType;
 
 @end
