@@ -22,7 +22,7 @@
 
 -(void) setVideoType : (NSString *) fileType
 {
-    if ([fileType rangeOfString:@"MP4" options:NSCaseInsensitiveSearch].location == NSNotFound)
+    if ([fileType rangeOfString:@"video/mp4" options:NSCaseInsensitiveSearch].location == NSNotFound)
     {
         isMP4 = NO;
     }

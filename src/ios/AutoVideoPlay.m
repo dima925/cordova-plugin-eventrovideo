@@ -14,7 +14,7 @@
     
     
     CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:[jsonResult objectForKey:@"url"]];
-    [moviePlayer setVideoType:[jsonResult objectForKey:@"videoType"]];
+    [moviePlayer setVideoType:[jsonResult objectForKey:@"videotype"]];
     [moviePlayer readyPlayer];
     
     [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
