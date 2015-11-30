@@ -7,6 +7,10 @@
 #import "CustomMoviePlayerViewController.h"
 
 
+
+
+
+
 @implementation CustomMoviePlayerViewController
 
 @synthesize xmlCopyArray;
