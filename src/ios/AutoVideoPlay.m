@@ -2,8 +2,6 @@
 #import "CustomMoviePlayerViewController.h"
 
 
-
-
 @implementation AutoVideoPlay
 
 - (void)autoplay:(CDVInvokedUrlCommand*)command
@@ -29,11 +27,16 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     
-    CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:fileURL];
-    [moviePlayer setVideoType:[response MIMEType]];
-    [moviePlayer readyPlayer];
+    BOOL modalPresent = (BOOL)(self.viewController.presentedViewController);
     
-    [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
+    if(!modalPresent)
+        {
+            CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:fileURL];
+            [moviePlayer setVideoType:[response MIMEType]];
+            [moviePlayer readyPlayer];
+            
+            [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
+        }
 }
 
 
