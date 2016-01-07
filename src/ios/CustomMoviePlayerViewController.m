@@ -7,10 +7,6 @@
 #import "CustomMoviePlayerViewController.h"
 
 
-
-
-
-
 @implementation CustomMoviePlayerViewController
 
 @synthesize xmlCopyArray;
@@ -131,32 +127,81 @@
     [mp  stop];
 }
 
+
 - (void) readyPlayer
 {
-    mp =  [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: movieURL];
+    [request setHTTPMethod: @"HEAD"];
     
-    if ([mp respondsToSelector:@selector(loadState)])
-    {
-        [mp setControlStyle:MPMovieControlStyleFullscreen];
-        [mp setFullscreen:YES];
-        [mp prepareToPlay];
+    dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSURLResponse *response;
+        NSError *error;
+        NSData *myData = [NSURLConnection sendSynchronousRequest: request returningResponse: &response error: &error ];
         
+        BOOL reachable;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(moviePlayerLoadStateChanged:)
-                                                     name:MPMoviePlayerLoadStateDidChangeNotification
-                                                   object:nil];
+        if (myData) {
+            
+            reachable=YES;
+            
+        } else {
+            
+            reachable=NO;
+        }
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(moviePlayBackDidFinish:)
-                                                     name:MPMoviePlayerPlaybackDidFinishNotification
-                                                   object:nil];
+        BOOL finished = NO;
+        __block BOOL cancelled = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            if (!finished) {
+                cancelled = YES;
+                
+                if(mp.playbackState != MPMoviePlaybackStatePlaying)
+                {
+                    [self closeNotifications];
+                    [mp stop];
+                    [self  dismissViewControllerAnimated:YES completion:nil];
+                }
+            }
+        });
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(orientationDidChange:)
-                                                     name: UIApplicationDidChangeStatusBarOrientationNotification
-                                                   object: nil];
-    }
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            if(reachable==YES)
+            {
+                mp =  [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
+                
+                if ([mp respondsToSelector:@selector(loadState)])
+                {
+                    [mp setControlStyle:MPMovieControlStyleFullscreen];
+                    [mp setFullscreen:YES];
+                    [mp prepareToPlay];
+                    
+                    
+                    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                             selector:@selector(moviePlayerLoadStateChanged:)
+                                                                 name:MPMoviePlayerLoadStateDidChangeNotification
+                                                               object:nil];
+                    
+                    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                             selector:@selector(moviePlayBackDidFinish:)
+                                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                                               object:nil];
+                    
+                    [[NSNotificationCenter defaultCenter] addObserver: self
+                                                             selector: @selector(orientationDidChange:)
+                                                                 name: UIApplicationDidChangeStatusBarOrientationNotification
+                                                               object: nil];
+                }
+            }
+            else
+            {
+                [self closeNotifications];
+                [mp stop];
+                [self  dismissViewControllerAnimated:YES completion:nil];
+            }
+        });
+    });
+    
 }
 
 

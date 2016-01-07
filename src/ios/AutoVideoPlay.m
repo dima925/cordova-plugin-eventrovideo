@@ -20,7 +20,7 @@
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus:CDVCommandStatus_OK
                                messageAsString:msg];
-
+    
     [self success:result callbackId:callbackId];
 }
 
@@ -30,13 +30,12 @@
     BOOL modalPresent = (BOOL)(self.viewController.presentedViewController);
     
     if(!modalPresent)
-        {
-            CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:fileURL];
-            [moviePlayer setVideoType:[response MIMEType]];
-            [moviePlayer readyPlayer];
-            
-            [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
-        }
+    {
+        CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:fileURL];
+        [moviePlayer setVideoType:[response MIMEType]];
+        [moviePlayer readyPlayer];
+        [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
+    }
 }
 
 
