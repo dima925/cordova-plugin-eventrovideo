@@ -31,12 +31,36 @@
     
     if(!modalPresent)
     {
-        CustomMoviePlayerViewController *moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:fileURL];
+        moviePlayer = [[CustomMoviePlayerViewController alloc] initWithPath:fileURL];
         [moviePlayer setVideoType:[response MIMEType]];
         [moviePlayer readyPlayer];
         [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
+        NSTimer *timerOut = [NSTimer scheduledTimerWithTimeInterval: 15.0
+                                                             target: self
+                                                           selector:@selector(onTick:)
+                                                           userInfo: nil repeats:NO];
+    }
+}
+
+
+-(void)onTick:(NSTimer *)timer {
+    
+    if(moviePlayer.isMediaPlaying==YES)
+    {
+        //nothing
+    }
+    else
+    {
+        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Timeout"
+                                                        message:@"15 Second Timeout! Your 3G/4G connection is too slow to play this file"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
     }
 }
 
 
 @end
+

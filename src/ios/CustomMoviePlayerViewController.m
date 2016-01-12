@@ -6,7 +6,6 @@
 
 #import "CustomMoviePlayerViewController.h"
 
-
 @implementation CustomMoviePlayerViewController
 
 @synthesize xmlCopyArray;
@@ -36,6 +35,7 @@
 {
     if ([mp loadState] != MPMovieLoadStateUnknown)
     {
+       
         if(isMP4==NO)
         {
             [mp view].frame = self.view.bounds;
@@ -77,6 +77,18 @@
     [self closeNotifications];
     [mp stop];
     [self  dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(BOOL) isMediaPlaying
+{
+    if(mp.playbackState == MPMoviePlaybackStatePlaying)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 -(void) audioPlayBackDidFinish :(id) sender
@@ -201,7 +213,6 @@
             }
         });
     });
-    
 }
 
 
