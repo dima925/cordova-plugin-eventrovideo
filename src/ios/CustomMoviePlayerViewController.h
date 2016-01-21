@@ -21,5 +21,6 @@
 - (void) moviePlayerLoadStateChanged:(NSNotification*)notification;
 - (void) setVideoType : (NSString *) fileType;
 -(BOOL) isMediaPlaying;
+-(void) killPlayer;
 
 @end

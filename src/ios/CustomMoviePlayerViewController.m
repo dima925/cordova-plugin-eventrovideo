@@ -139,6 +139,13 @@
     [mp  stop];
 }
 
+-(void) killPlayer
+{
+    [self closeNotifications];
+    [mp stop];
+    [self cleanup];
+}
+
 
 - (void) readyPlayer
 {

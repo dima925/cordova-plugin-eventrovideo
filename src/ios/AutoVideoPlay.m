@@ -12,6 +12,7 @@
     NSDictionary* jsonResult = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     NSString* msg = [NSString stringWithFormat: @"Sended data is ,  %@", jsonString];
     
+    
     fileURL = [jsonResult objectForKey:@"url"];
     NSURLRequest    *req  = [NSURLRequest requestWithURL:[NSURL URLWithString:fileURL]];
     NSURLConnection *conn = [NSURLConnection connectionWithRequest:req delegate:self];
@@ -25,6 +26,21 @@
 }
 
 
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    
+        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Timeout"
+                                                        message:@"Unable to play media file."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+   
+}
+
+
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     
     BOOL modalPresent = (BOOL)(self.viewController.presentedViewController);
@@ -35,10 +51,14 @@
         [moviePlayer setVideoType:[response MIMEType]];
         [moviePlayer readyPlayer];
         [super.viewController presentViewController:moviePlayer animated:YES completion:nil];
+        
+        
         NSTimer *timerOut = [NSTimer scheduledTimerWithTimeInterval: 15.0
                                                              target: self
                                                            selector:@selector(onTick:)
                                                            userInfo: nil repeats:NO];
+         
+         
     }
 }
 
@@ -51,13 +71,14 @@
     }
     else
     {
+        [moviePlayer killPlayer];
         [self.viewController dismissViewControllerAnimated:YES completion:nil];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Timeout"
                                                         message:@"15 Second Timeout! Your 3G/4G connection is too slow to play this file"
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
-        [alert show];
+        //[alert show];
     }
 }
 
